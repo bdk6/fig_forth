@@ -93,7 +93,7 @@ TCR       =0xD0F1         ; terminal return and line feed.
 ;    to Boot up  code, and parameters describing the system.
 ;
 ;
-          .=.+2
+           .ORG ORIG      ;          .=.+2
 ;
                          ; User cold entry point
 ENTER:     NOP            ; Vector to COLD entry

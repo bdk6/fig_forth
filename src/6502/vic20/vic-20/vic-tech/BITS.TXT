@@ -1,0 +1,431 @@
+@(#)bits: Twiddling the Bits: VIC-20 ROM Cartridge Exploration and Archiving
+          by Ward Shrake (wshrake@aol.com)
+
+@(A): Introduction
+	    
+This article's primary purpose is to enable you to understand the basic 
+principles of making an archival backup of a ROM cartridge. However, I do 
+wish to point out the following important points, before I begin: 
+
+@(A): Disclaimer
+ 
+1. This is NOT intended for any sort of illegal purposes! The  
+   information can be misused, if one wants to badly enough. However, so can  
+   virtually every other piece of information on the planet. Fire is a good  
+   thing, as are hammers, saws, and other tools, but all of them can be  
+   misused. I urge the reader to use this information in a proper fashion  
+   and to take the time to reflect on what you are doing, to avoid hurting  
+   anyone or anything. 
+ 
+2. I am releasing this information for two basic reasons (besides basic  
+   hacker pride in obscure technical knowledge).  First, the Vic20 died many  
+   years ago. Commodore helped accelerate its death, by pushing the C64  
+   computer onto the market, at a time when all the companies out there had  
+   a lot at stake. I don't blame Commodore from a marketing sense; they just  
+   wanted to stay alive themselves in a cutthroat market environment.  
+   However, this means a lot of people still have the idea that the Vic20  
+   was/is a piece of obsolete junk. This is not true, but the public acts as  
+   if it were. The end result is that a lot of perfectly good hardware and  
+   software is thrown away on a regular basis. Once it is in a landfill  
+   somewhere, it’s rather difficult for anyone to use it! Hence my two-fold  
+   concern: to help show the public (and Commodore Guru types) the Vic20 is  
+   a very cool gaming machine, and to physically rescue the software for the  
+   system before all of it is lost forever. I take little pleasure in  
+   thinking that 50,000 years from now some archaeologist will dig up our  
+   landfills and think we must have had some really cool stuff! 
+ 
+3. I really like the term "Digital Archaeology." (I wasn't the first to  
+   use it, however.) Basically, it means that with the many rapid advances  
+   in the computer sciences, lots of stuff gets lost or forgotten in the  
+   rush to replace everything every few years. Whereas an entire  
+   civilization might take hundreds or even thousands of years to die out  
+   and be all but forgotten, the history, lore, and software of computers  
+   can be gone in just a few years. If we don't revive it now, who will  
+   remember how to use any of this stuff? There are only a few people around  
+   now that can do it, and their memories are getting fuzzy with the passage  
+   of time. I don't mean to preach; I just think this is as good a time as  
+   ever! 
+
+A small group of concerned individuals, myself included, have begun the
+task of archiving all the VIC-20 cartridges known to exist.  The project
+also includes documenting every aspect of the VIC-20 hardware and how
+it operates.
+
+@(A): General information about Vic20 cartridge software 
+ 
+A Vic20 cartridge is approximately 5.5 inches wide, 3 and 3/8ths inches  
+deep, and 5/8ths inches tall, when viewed as if ready to be installed.  
+Most of the cartridges that were made by Commodore are either a beige or  
+dark brown colored plastic with a tan or metallic all-text label. Some  
+third-party companies had more interesting looking cartridges; most of  
+the plastic cases were black as a general rule, with white also being  
+used at times. In rare cases, oddly-shaped carts existed, for example,  
+carts by UMI. Some of these seem to be more epoxy-based than plastic,  
+with glitter inside it! Only a few companies really had fancy, full- 
+colored labels on their cartridges. 
+ 
+The most common memory configuration, inside the casing, is one bank of  
+8k. ROM was standard for the larger companies, but EPROM's were also used 
+at times, even by Commodore themselves. Four-kilobyte cartridges do 
+exist, as do 8k cartridges made up of two banks of 4k chips. (Memory was  
+expensive then, as you can no doubt imagine, and some companies had to  
+make due with whatever they could get cheap enough.) 16K cartridges do  
+exist as well, although the bulk of these were done by the largest  
+companies. Commodore made a few 16k carts, as did Atari, Sega, Hes, and a  
+few others. 
+ 
+If other standard cartridge memory configurations existed in the Vic's  
+day, the author is currently unaware of them. (I would like to hear of  
+any, if they do/did exist, especially if they were once made  
+commercially.) There may be a few exceptions, for instance, for carts  
+that modified the Vic20's own inherent abilities; for example, 40 and 80  
+column boards. But the rule of thumb here is that 8k was the accepted  
+standard, with 4k and 16k at times. All of these cartridge 
+configurations, by the way, are using 8-bit memory because the Vic20 is  
+an 8-bit computer. 
+ 
+Inside a typical Vic20 cartridge is one double-sided, etched circuit  
+board, with some form of memory chip(s) on it. This may be a "standard"  
+IC chip as we are used to seeing (24 or 28 pin ROM, in a DIP package), or  
+it could be a blank circuit board, with a tiny blob of black epoxy  
+material on it, under which are presumably the internal components of a  
+typical, normal ROM chip. 
+ 
+The standard circuit board size is approximately 3 and 9/16ths inches  
+wide, and 1 and 3/4 inches deep. A cart fits into a 44-position, double- 
+sided card edge connector, located in the back, left hand side of the  
+Vic20. 
+ 
+On the cart circuit board itself, there might be several wire traces or 
+jumpers, which, if there, are meant to configure the cartridge to a  
+certain memory arrangement. These jumpers are meant to connect the BLK or  
+RAM lines to the system ground. These lines, when connected, tell the  
+Vic20 where to place the cartridge within the Vic20's internal memory  
+mapping scheme. 
+ 
+While all "normal," autostart game cartridges are located in one fixed  
+area of memory, this is not true with all cartridges. A rare few of the  
+total Vic20 cart collection did not use the autostart procedure; you had  
+to type in a systems number to start the program running after inserting  
+it. These are very rare, however (6 out of 150+ so far). Most cartridges  
+all autostart after insertion and power-up, just as cartridges do in game  
+console systems. 
+ 
+All this memory banking may seem confusing. If it does, remember this:  
+Every cartridge that autostarts must have at least one bank of memory in  
+Block 5, or the autostart procedure will not function. If it autostarts,  
+there has to be some memory in Block 5. That may help relieve some  
+confusion. There may be additional memory installed as well, in some  
+cases, for more storage space. The location of this additional memory is  
+less important than the location of the autostart bank.  However, there  
+are only three additional 8k banks left, for a total of four banks of  
+user-added RAM or ROM memory. The Vic20 was built when memory was  
+expensive, and computers were designed to be bare-bones memory-wise with  
+the capability to expand on later. This may take some getting used to at  
+first, but understanding it gets easier in time. Take it in stride for  
+now. 
+ 
+@(A): The Cartridge Auto-Starting Feature
+ 	  	    	 	  	 
+Please note that if you already understand the autostarting system used  
+in the Commodore 64, this is nearly identical in procedure. Only certain 
+codes and memory locations differ; the rest applies to both machines. 
+ 
+The "normal" spot for an 8K cartridge to be located in memory is in  
+"Block 5"(which is located at $A000 to $BFFF). Again, this is not the  
+only possible spot in memory for a cartridge to be located, but it is the  
+only spot where the Vic20 will look for a cartridge that automatically  
+starts on power-up. This is because (at power up) the Vic20 looks for a  
+precise code in a precise spot to see if it should autostart a cartridge  
+or not. If the Vic20 finds this EXACT five-byte code, EXACTLY where it is  
+supposed to be located in memory, the Vic20 turns control over to the  
+cartridge. If not, it gives over control to the user, via the normal,  
+power-up Basic READY prompt screen. 
+ 
+ 
+   This 8K autostart sequence code is shown below: 
+ 
+   Address      Hex value     Decimal value    ASCII values 
+   	  		 		   
+   $A004        $41           65               Capitol "A" 
+   $A005        $30           48               Digit "zero" 
+   $A006        $C3           195              Reverse "C" character 
+   $A007        $C2           194              Reverse "B" character 
+   $A008        $CD           205              Reverse "M" character 
+ 
+(You may note that the code above is symbolically saying $A000, and  
+Commodore Business Machines. In other words, that this is the right  
+software, for the right machine. The C64 uses $8000 instead.) 
+ 
+If the computer finds this five-byte sequence exactly as shown, it turns  
+its control over to the machine language program in the cartridge. To do  
+so, it needs to know where the program begins. There are four bytes which  
+determine this, as shown in the chart below. Note that this is in the  
+cart, not the Vic20.  
+ 
+   Address      What this byte of information contains
+   
+   $A000        Low-byte  of 16-bit "cold start" address (power-up) 
+   $A001        High-byte of 16-bit "cold start" address 
+   $A002        Low-byte  of 16-bit "warm start" address (restore key) 
+   $A003        High-byte of 16-bit "warm start" address 
+ 
+Let's do a quick summary of this before we go on. You plug a cartridge  
+into the Vic20. You turn the power on. The Vic20 starts its own built-in  
+operating system software. It gets itself ready to be used, either by the  
+user (in BASIC) or by a cartridge's program. 
+ 
+One of the last steps in the computer's start-up sequence is to look at a 
+certain spot in memory, to see (A) if there is a cartridge inserted  
+there, and (B) if it is the proper type. It does both these tasks through  
+simple assumptions. Assuming that the existence of an autostart code
+sequence at a certain memory address implies a cartridge is present, the
+computer looks for the "A0CBM" code sequence. If it finds it, it then
+transfers control to the locations specified at $A000-$A003, as defined
+above.  (In many cases, this address is $A009 or 40969 ... the next  
+byte possible after all the start-up codes.) 
+ 
+@(A): How to Archive Vic20 ROM Cartridges
+ 	     		       		 
+Now that we know how the autostart process works, what can we do with  
+that information? Well, to archive a cartridge's internal ROM memory to  
+either tape or diskette, you have to know how the autostart process  
+works. This is necessary because you have to figure some way around it to  
+be able to get to that "no carts inserted" normal power-up screen. This  
+means that you then have full control of the machine, instead of the  
+cartridge being in full control. 
+ 
+Simply put, there are only two steps to archiving a cartridge from its  
+cart to disk or tape. 
+ 
+1. Find some method of defeating the autostart process, so that the  
+   Vic20 powers up with the cartridge in memory, but does not start it up.  
+   So that you are in control, instead of the cartridge running the show. 
+ 
+2. Copy that area in memory where the cartridge resides, to tape or  
+   disk. The resulting program is called an "image" of the cartridge's  
+   memory. 
+ 
+After that, assuming there is no copy-protection coded into the original,  
+you have a working version of the program stored on disk/tape instead of  
+on ROM. 
+ 
+Some problems may arise, but don't worry, they are easy to get around if  
+you know how to do it. 
+ 
+A. There may be more than one block of memory to copy. The one found at 
+   Block 5 is easy, because if the cart auto-starts, there must be memory  
+   that needs to be copied. However, additional memory may be present. You  
+   will need to determine where it is, and how much of it there is. 
+ 
+B. Depending on how you transferred the image to disk (assume I mean  
+   "disk or tape" from now on), was the loading address information stored  
+   with the image? If it was you can reload it easily next time. Without  
+   those two important address bytes (these are separate from those we  
+   discussed earlier), the software won't load properly, and so will not  
+   work. 
+ 
+OK, so now you're convinced it’s impossible, right? For every problem,  
+there is always a number  of solutions. I wrote a small program that  
+eliminates most of the problems inherent in archiving carts, and have  
+figured out ways of eliminating most of the hassles. The program also  
+makes the process more reliable, since archiving rare and cool things is  
+the main idea. I'll make that program publicly available, soon, after a  
+bit of polishing. 
+ 
+But you still have to get around that auto-start procedure. Without doing  
+that first, you are dead in the water before you've even started. So,  
+here's how you get around the autostart procedure. After that, its all  
+downhill!  
+ 
+There are a number of suggested methods shown below. My suggestion is to  
+pick out the method you like best and stick with it. The rest will just  
+be to satisfy your built-in hacking curiosity, OK? Other methods exist  
+but I didn't feel they warranted the space here. These are some of the  
+best ways. 
+ 
+@(A)method1: Inserting a Cartridge Into a Powered Computer
+      
+Please pay attention to what I am about to say: this is the only method I  
+DO NOT recommend! I mention it mainly because it represents a very real  
+risk of killing your hard-to-replace Vic20 computer system. This is 
+supposed to be an exercise in keeping things alive and usable, not 
+killing more off! If you feel you want to try this, you do it at your own  
+risk!  
+ 
+I once knew a guy that wanted to archive Vic20 carts, but wasn't willing  
+to go to a lot of effort to find a good way to get around the autostart  
+feature. When he told me what he was doing, I tried to warn him. He kept  
+on doing it, saying he'd "just be careful."  The next thing I know, he is  
+asking me how to repair a computer that died suddenly. I told him the  
+truth: (A) you don't, you go find and buy another one, and (B) you listen  
+to me the next time I tell you that you're risking your almost  
+irreplaceable hardware. 
+ 
+If that didn't convince you, well, I tried. There are better methods, by  
+far! If you can't find a better one than this, pay someone to modify your  
+Vic20, or just loan the cart in question to someone who is more used to  
+doing this! 
+ 
+@(A)method2: Altering Your Computer's Operating System ROM
+ 
+What this method does is change the copy of the code to check for, inside  
+the Vic20, so that no cartridge's unaltered code ever matches it. So no  
+autostart. 
+ 
+No cart will ever match the modified start-up code in your new operating  
+system, so none will ever be seen as a cart. However, having one of these  
+chips installed permanently could be a bad idea, as you cannot test or  
+start your saved images quite as easily. The image won't autostart  
+either, unless you are willing to keep swapping chips back and forth, or  
+unless you know how to decode the starting addresses and type in systems  
+numbers. 
+ 
+This is an elegant way to solve the problem, providing you possess tools
+to read and program EPROM ICs and can obtain replacement ICs that
+are pin-compatible.  Thus, the elegant solution requires a substantial
+amount of resources.
+ 
+However, one chip does exist, which is expensive if you buy it new, and  
+may be hard to find as well. (Try posting to "comp.sys.cbm.") If you can  
+find a Motorola 68764 chip, you're almost there! Just copy the Kernal rom  
+to disk, modify the "A0CBM" code found there to be anything but that, and  
+burn a new EPROM of your modified Kernal rom. The manual to the Promenade  
+EPROM-writing machine makes programming these chips a snap. And the  
+Promenade is still available today, from it makers, Jason-Ranheim Co.  
+(Phone: 916-878-0785, or 1-800-421-7731.) These same 68764 chips work  
+with C64's internals, too. 
+ 
+This does work. It has the advantage of requiring no modifications to  
+your Vic20 which can't be easily reversed. Before I got tired of swapping  
+Kernal chips back and forth, this was my preferred method of archiving  
+cartridges. 
+ 
+@(A)method3: Using a Cartridge Port Epander
+ 
+I've come to feel that a plug-in board is the best way to modify things  
+just long enough to get past the start-up process, skip the autoboot  
+phase, and get down to business. If you can find one, buy it! It makes  
+life so much easier and nicer, in more ways than just this one. I highly  
+recommend buying one. 
+ 
+Basically, this device lets you plug in lots of carts at once, and with  
+just a button press, decide which one to use at any given time. Well,  
+that switch is all you need! Just (A) turn the computer off and insert a  
+cartridge, (B) make sure all the switches are de-activated, (C) turn the  
+computer on. You should now be looking at a normal, BASIC power-up 
+screen. Now (D) press the button that activates the slot that your  
+cartridge is plugged into, so that the cartridge is now mapped into  
+memory properly, although belatedly, and (E) follow the instructions in  
+the next part of this text, to archive the cart.  
+ 
+Note that you can modify your Vic20 to do the same thing if you are handy 
+with a soldering iron. But as I don't want anyone killing their only  
+Vic20, maybe I'll save that for another article ... this one is almost at  
+deadline, and I don't want to rush things and make any mistakes!(Besides,  
+I don't know yet if anyone is interested enough to modify their Vic20's  
+to do this??) 
+
+@(A): Saving One or More Blocks of cartridge Memory to Disk or Tape
+ 
+Once you've defeated the auto-start feature of the Vic20, the memory  
+contained in the cartridge is just another block of memory as far as the  
+Vic20 is concerned. You have full access privileges, with all that goes  
+with it, including the ability to save it to external storage. 
+ 
+You have three basic choices to save the block of memory to tape/disk.  
+You can either (A) wait until I release my program that does it  
+automatically, or (B) use a "memory save" feature of a machine language  
+monitor program (not built in) to save the 8K block of ROM memory, or you  
+can (C) just change four POKE's in the Vic20's memory. With this, your  
+cartridge is seen as if it were in the BASIC program memory area so that  
+the built-in "SAVE" command works. 
+ 
+It really works. The beauty of it all is that no additional programs are  
+needed. To save any block of cartridge-usable memory in the Vic20, just  
+type in four easy POKE commands, then tell the Vic to SAVE the program as  
+it would normally save any BASIC program. (You can even copy the system  
+ROMs that way, if you want to.) 
+ 
+For those of you already familiar enough with Commodore's style and  
+memory arrangement schemes to make sense of this, bytes 43 and 44  
+(decimal, not hex) are the pointers to the Start of Basic memory area,  
+and bytes 45 and 46 are the pointers to the Start of Variables, or in  
+other words, the End of Basic. Follow this chart, to save a block of  
+memory from these areas via pokes: 
+ 
+   Block #   Hex Address     Poke 43,x   Poke 44,x    Poke 45,x  Poke 46,x 
+     5       $a000-bfff      x = 0       x = 160      x = 0      x = 192 
+     3       $6000-7fff      x = 0       x = 96       x = 0      x = 128 
+     2       $4000-5fff      x = 0       x = 64       x = 0      x = 96 
+     1       $2000-3fff      x = 0       x = 32       x = 0      x = 64 
+ 
+Here's an example: to save block 5 (the most commonly used memory block)  
+you do the following steps.  
+ 
+0. Follow the previous instructions, to get to this point. (The  
+   cartridge has been inserted, power is now turned on, and the autostart 
+   has been defeated. The Vic20 is showing you its normal BASIC power-up  
+   screen.) 
+ 
+1. Type the following, hitting RETURN after each line. (Type  
+   carefully!) 
+ 
+     POKE 43,0                  (and return) 
+     POKE 44,160                (and return) 
+     POKE 45,0                  (and return) 
+     POKE 46,192                (and return) 
+     SAVE "FILENAME.EXT",8      (and return) 
+ 
+2. Wait for the disk drive to finish its saving process. (Be patient.) 
+ 
+3. If you have more 8k blocks to copy, repeat all the previous steps,  
+   but adjust the POKE statements, according to the information in the  
+   chart. Note that the pokes to 43 and 45 are always zero; even page  
+   increments. Also, note that the computer will get confused or lock up if  
+   you try to copy another block of memory without starting completely over. 
+ 
+4. When the busy light turns off again, turn the Vic20's power back  
+   off. Remove the cartridge, and if you have a modified 8k or 16k RAM  
+   expander insert it or activate it. If you have a 32k RAM expander, you  
+   can use it. 
+ 
+5. Load the disk's directory up, (or rewind the tape), and see if the  
+   file has been properly saved to the disk. It should show a file size of  
+   33 blocks, if all has gone well ... 32 blocks x 256 bytes each = 8k, plus  
+   one block for the disk drive's overhead and the file loading address. 
+ 
+6. If everything looks fine so far, just load the newly created "image" 
+   into RAM memory, to see if it runs. Remember a few tips: as with the C64,  
+   you always have to use the  ,8,1  loading conventions for any machine  
+   language program to reload into memory back where it came from. 
+ 
+   Also, to properly load up an image that has more than one 8k bank, you  
+   will have to type NEW after each load to reset some memory pointers.  
+   Otherwise, it moves BASIC to where the cart now is and gets confused. So  
+   multi-loads are: (A) LOAD"file1",8,1   (B) NEW   (C) LOAD"file2",8,1 
+ 
+7. The last step is starting up the image, to see it in all its new  
+   glory! To do this, all you have to do is (A) press the reset button  
+   you've installed yourself, or if you don't have one installed, (B) type  
+   the following "reset" command into the computer...  SYS 64802  (and  
+   return). 
+ 
+8. At this point, your image is probably running. If it is not,  
+   carefully recheck all the previous instructions. You may have made a  
+   mistake or two there, somewhere. (One mistake I have often made is to  
+   forget to re-activate the expansion chassis' slot, and essentially save  
+   empty air.) 
+   
+@(A): Troubleshooting
+      		     
+But if you recheck everything, and it STILL doesn't work, try archiving  
+another cartridge. If the first does not work, but the second one does,  
+you have likely found one of the few protected carts out there. How to  
+"break" the copy protection is way out of the scope of this article, so I  
+can't help you there! Sorry. But usually, everything will be fine by now,  
+if you've followed the instructions carefully, step-by-step. Only about
+10% of the VIC-20 cartridges were copy protected.
+
+=========================================================================
+

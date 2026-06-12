@@ -1,0 +1,421 @@
+C= Hacking submission, from Ward Shrake. August 16, 1996.
+
+
+
+
+
+This document is a collection of pinout diagrams and technical notes, meant
+to assist anyone who wishes to experiment electronically with the "obsolete"
+Commodore Vic20 computer. Specifically, this document addresses the cartridge
+or Memory Expansion port and related items, such as ROM & EPROM memory chips.
+
+What kinds of things can you do with a Vic20? Well, how much imagination do
+you have? The hardware isn't as limited as most of us probably remember it
+being, so the question becomes largely one of what you want to do with it,
+what your level of skills and knowledge may be, and so on. Here are some 
+examples of things you can do ... but by no means the only things possible!
+
+
+  - A reset button can be wired into the Vic20 fairly simply. This might
+    be a good idea, if one plans to experiment much. The Vic20, or any
+    computer, might lock up when you've told it to do something odd while
+    experimenting. Simply use a momentary-contact, normally-open switch,
+    wired between the RESET line and any port GND line. When you press
+    the new button for a second and let go, the computer will reset. This
+    is because the RESET line is active low, and your switch grounds that
+    line. If you decide to do this *inside* your Vic20, remember you are
+    now looking at the *back* of the port, NOT the front. Therefore, use
+    the pinout diagram for a cartridge, not the port, to find the lines.
+    Radio Shack switch part number 275-1547 or equivalent will work fine.
+    
+  - Make your own EPROM-based plug-in cartridges, in standard memory sizes.
+    The "stock" Vic20 supports up to 32k of memory, in banks of 8k each. The 
+    first banks (#1, 2, 3) are contiguous memory, and can be RAM or ROM at
+    your choice. The next bank is actually a ROM operating system chip, so
+    that's the end of contiguous memory. However, the bank after that (#5)
+    is another usable bank. It can be RAM or ROM; it is usually ROM, but can
+    be RAM with one restriction; BASIC can't "see" it as easily usable. (See
+    the pinout below, for more information on memory banking on the Vic20.)
+    
+  - Archive existing ROM or EPROM cartridges to disk or tape, to allow them
+    to be run from within a RAM expander. Most commercial cartridges were
+    8k in memory size, with a small amount having been 4k or 16k of memory.
+
+  - Modify an existing RAM expander, to move one 8k bank of RAM into the
+    upper memory area, in "block 5". ($A000 hex, for all you ML junkies.)
+    This is not anywhere near as hard as it sounds ... and if you want to
+    play archived game cartridges as "images" in RAM, it is necessary. To
+    do it, just (A) open your RAM expander's plastic casing, (B) see if you
+    have a bank of DIP switches already installed, and (C) if you do, just
+    flip the left-most switch "on", while turning the other 3 all "off". 
+    (Note that this assumes you are using an 8K expander; if you are using a 
+    16K expander you need to be aware that there are two side-by-side groups
+    of four switches each; the left half controls the upper 8k, and right one
+    controls the lower 8k bank.)
+    
+  - If you want to do the RAM expander modification mentioned above, but you
+    find you do not have DIP switches already installed, you can do one of
+    two things. (A) you can install new switches yourself, or (B) you can do
+    an easier and more permanent modification, by putting a blob of solder
+    across the two left-most half-circles on the PC board, and making sure
+    there are no other half-circles in that 8k bank which are joined in the
+    middle by a straight line or another blob of solder. If you've ever seen
+    disk drive device number modifications, its the same basic thing here.
+    (But if all this sounds too complicated, let someone do the mod for you.)
+
+  - If you find you now have a RAM cart that has a row of DIP switches to
+    control where its memory will be "seen", and that cart has a fully 
+    plastic (not metal) label, you can now consider cutting a rectangular
+    hole in the plastic case to allow external switch-changing. This is so 
+    you don't have to open the case every time you want to make a memory 
+    bank change. (The metal labeled carts are harder to cut, obviously, so
+    you might consider swapping guts with another cart casing, if you like.)
+
+    The hole needed is as follows ... but note that I'm referring to the edge
+    of the cartridge's LABEL area, not the outer edges of the plastic casing.
+    Put some masking tape over the label (to preserve it) and write on it, to
+    mark where the hole must go. The bottom edge of the hole is 5/16ths of an
+    inch above the bottom edge of the label. The top edge is 1/2 inch above
+    that. There should be about 1.75 inches left, from there to the top of the
+    label area. The sides of the hole are harder to measure, as you'll note
+    there is some subtle inward tapering of the casing and label area, to
+    allow some rocking motion while inserting/removing carts from the Vic20.
+    Measure from the exact left corner, inward 2 and 1/8th inches in. This is
+    the left edge of the hole. Measuring from the exact right corner of the
+    label, come in 1 and 15/16ths inch. The hole should be roughly 7/8ths of
+    an inch wide. As with any hole-cutting project, start out smaller than
+    the finished hole is supposed to be, and move outward carefully. A "hot
+    knife" or dremel plastic cutting wheel will do this job fast and neat.
+
+  - It is possible to make your RAM cartridge "look like" ROM memory, at the
+    flip of a switch. This used to be a popular feature of various companies
+    cartridge expansion port chassis', to allow archival images of programs
+    to run in RAM, even if they are protected and would normally over-write 
+    themselves if they were found to be running from within RAM memory.
+  
+  - Make your own plug-in cartridges, using bank-switching techniques, that
+    are much larger than the standard 4 banks of 8 kilobytes each. I just saw
+    a posting on Usenet, that referred to someone's having made a cartridge
+    that used 192K of EPROM memory, along with 8k of RAM memory. (So much for
+    the memory limitations of the past!)
+
+  - Besides creating new things from scratch, you can also modify existing
+    ones. There is nothing that says that a hardware project has to be one
+    made from scratch! One beginner-type electronics project: the RAM carts 
+    made by Commodore came in 8K or 16K variations. But if you open one up, 
+    you'll quickly see that the PC boards are identical in both versions. 
+    The 8k RAM cart is just a half-populated 16k board! I have not done it 
+    myself (as I have 16k and 32k expanders already), but adding the extra 
+    8K looks easy enough, if one had the right parts and the need to do it.
+
+  - It seems entirely feasible to make a "fastload" type of cartridge for the
+    Vic20 ... that is, one that "disappears" part of the time, leaving memory
+    in a non-expanded state. One possible application example might be to, as
+    I said, make a "fastload" type of cartridge; in fact, years ago at least
+    two tape accelerator carts DID once exist (Arrow, and Vic Rabbit). 
+    
+  - Other possible uses for a cart like this might be to make a cart similar 
+    to the "Game Genie". In other words, where cart images loaded into RAM 
+    memory are modified byte-by-byte, in some pre-calculated ways, to make
+    immortal or "cheat" versions of certain games. Or best case scenario,
+    all cartridge based games! Imagine adding level selects to 15-year old
+    games? It may sound silly at first, but what a hacking trick to pull off!
+
+  - Memory dumping carts are one other possibility ... by that I mean carts   
+    similar to the "Snapshot" series, "Icepick" or whatever. These would be
+    very useful for examining memory usage, testing RAM carts, etc, etc.
+
+  - "Multi-carts" are also possible. In other words, many images of cartridge
+    based software programs can be placed into one or more very large EPROM
+    chips, in one cartridge casing. Modern memory sizes all look huge, when
+    compared to the miniscule memory sizes of the past. One example: a 28-pin
+    chip exists that is *almost* a direct pin-for-pin replacement for a 24-
+    pin EPROM memory chip. So, its *almost* trivial to make an 8k cartridge 
+    be a collection of 8 x 8k games, or 4 x 16k games. Much, much larger
+    chip sizes exist now, which would allow a hundred or more games in one
+    cartridge casing. Of course, that's no longer easy, let alone trivial,
+    but it can be done. It has been done already, with other gaming systems,
+    in fact. (See the pinouts and notes below, for some get-started info.)
+
+  - If you did make a multicart, one easy way to control all the extra lines
+    needed for bank-selection and addressing, would be to use the modem port
+    lines, with a cable from there into the cartridge. Sounds silly, perhaps,
+    but there are already 8 user-addressable lines there, for input and for
+    output, so why get fancier than you need to? This port should seem very
+    familiar to C64 users, as there are a lot of similarities there. To use
+    the port, as on the C64, takes only two POKE's, even from within BASIC!
+
+  - Battery-backed carts used to exist, years ago. Those should not be too
+    hard to make again. In fact, some RAM carts have such large capacitors
+    inside them, that once you load a program up and turn it off, it takes 
+    quite some time to get RAM to clear! (I thought I toasted one of my Vic's
+    one day, after a soldering session. But I figured out what was wrong; 
+    all it takes to solve the problem is to wait longer when power cycling.)
+  
+  - You tell me? There has to be more ways to use this part of the Vic20....
+
+
+So with all that said, I'm going to launch right into the technical specs and
+such, and let you play to your hearts content! I'd love to see an article in
+a later issue of C= Hacking, that put this information to use, and showed us
+all exactly how you did it, step-by-step. Go for it!
+
+
+
+  Pinout diagram #1: Memory Expansion port connector of the Vic20 computer
+
+Below is the pinout diagram of the Vic20 cartridge port, or Memory Expansion
+Connector. Please note that this is NOT the pinout for a cartridge that might
+fit into any port, nor is it a pinout of the User Port, which is something
+completely different. This diagram shows the cartridge port's pinout, as you
+face the rear of the Vic 20 computer. (The port is on the Vic20's left side.)
+
+
+Bottom side of expansion port.       Top side of expansion port.
+(This half is on bottom.)            (This half is towards the keyboard.)
+
+          (This edge of the connector faces left,
+          where the power switch and the LED are.)
+
+                        _________
+                        |  ___  |
+         GND         A  |  | |  |   1       GND
+         CA0         B  |  | |  |   2       CD0
+         CA1         C  |  | |  |   3       CD1
+         CA2         D  |  | |  |   4       CD2
+         CA3         E  |  | |  |   5       CD3
+         CA4         F  |  | |  |   6       CD4
+         CA5         H  |  | |  |   7       CD5
+         CA6         J  |  | |  |   8       CD6
+         CA7         K  |  | |  |   9       CD7       (Memory Location:)
+         CA8         L  |  | |  |   10      BLK 1       ($2000 - $3fff)
+         CA9         M  |  | |  |   11      BLK 2       ($4000 - $5fff)
+         CA10        N  |  | |  |   12      BLK 3       ($6000 - $7fff)
+         CA11        P  |  | |  |   13      BLK 5       ($a000 - $bfff)
+         CA12        R  |  | |  |   14      RAM 1       ($0400 - $07ff)
+         CA13        S  |  | |  |   15      RAM 2       ($0800 - $0bff)
+         I/O 2       T  |  | |  |   16      RAM 3       ($0c00 - $0fff)
+         I/O 3       U  |  | |  |   17      V R/W
+         S02         V  |  | |  |   18      C R/W
+         NMI         W  |  | |  |   19      IRQ
+         RESET       X  |  | |  |   20      NC
+         NC          Y  |  | |  |   21      +5 Volts
+         GND         Z  |  | |  |   22      GND
+                        |  ---  |
+                        ---------
+
+          (This edge of the connector is on the
+          right, where all the other ports are.)
+
+
+Pinout Notes:
+-------------
+BLKxx =  8K decoded RAM/ROM block xx, active low. See chart above for area.
+CAxx  =  Address bus line xx
+CDxx  =  Data bus line xx
+C R/W =  Read/Write line from CPU. (Read = high, Write = low)
+GND   =  System ground
+I/O 2 =  Decoded I/O block 2, starting at $9130
+I/O 3 =  Decoded I/O block 3, starting at $9140
+IRQ   =  6502 Interrupt Request line (active low)
+NC    =  No connection
+NMI   =  6502 Non-Maskable Interrupt line (active low)
+RAMxx =  1K decoded RAM blockxx, active low. See chart above for memory area.
+RESET =  6502 reset line (active low)
+S02   =  Phase 2 system clock
+V R/W =  Read/Write line from Vic chip. (Read = high, Write = low)
+
+
+
+  Pinout diagram #2: A standard Vic20 cartridge's card edge connector
+
+Below is a pinout diagram of a standard Vic20 cartridge, seen facing its card
+edge connector. Please note that this is NOT the pinout of the port it plugs
+into, which is shown above. The two pinouts are exact opposites, because you
+are facing the port head-on as is, but you have to flip a cartridge around
+180 degrees to be able to look at it head-on, facing its card edge connector.
+
+
+ Bottom side of cartridge      Top (label or component) side of cartridge
+
+                         _-_
+         GND         Z   | |   22    GND
+         NC          Y   | |   21    +5 Volts
+         RESET       X   | |   20    NC
+         NMI         W   | |   19    IRQ
+         S02         V   | |   18    C R/W
+         I/O 3       U   | |   17    V R/W     (Memory location:)
+         I/O 2       T   | |   16    RAM 3       ($0C00 - $0FFF)
+         CA13        S   | |   15    RAM 2       ($0800 - $0BFF)
+         CA12        R   | |   14    RAM 1       ($0400 - $07FF)
+         CA11        P   | |   13    BLK 5       ($A000 - $BFFF)
+         CA10        N   | |   12    BLK 3       ($6000 - $7FFF)
+         CA9         M   | |   11    BLK 2       ($4000 - $5FFF)
+         CA8         L   | |   10    BLK 1       ($2000 - $3FFF)
+         CA7         K   | |   9     CD7
+         CA6         J   | |   8     CD6
+         CA5         H   | |   7     CD5
+         CA4         F   | |   6     CD4
+         CA3         E   | |   5     CD3
+         CA2         D   | |   4     CD2
+         CA1         C   | |   3     CD1
+         CA0         B   | |   2     CD0
+         GND         A   | |   1     GND
+                         -_-
+
+
+   Pinout diagram #3: EPROM # 2764A
+   (This is a standard, 8K x 8 bit memory chip)
+            
+            ____    ____
+            |   !__!   |
+        Vpp | 1     28 | Vcc  (+5 Volts)
+        A12 | 2     27 | PGM  (Active low)
+        A7  | 3     26 | N.C. (No connection)
+        A6  | 4     25 | A8
+        A5  | 5     24 | A9
+        A4  | 6     23 | A11
+        A3  | 7     22 | OE  (Output Enable; Active low)
+        A2  | 8     21 | A10
+        A1  | 9     20 | CE  (Chip Enable; Active low)
+        A0  | 10    19 | D7
+        D0  | 11    18 | D6
+        D1  | 12    17 | D5
+        D2  | 13    16 | D4
+        GND | 14    15 | D3
+            |__________|
+
+ See the notes below for some tips on using this as a replacement memory
+ chip, on a modified cartridge body, for experimentation purposes. Note
+ that there are differences between it and the standard Vic20 chip below,
+ that will have to be accounted for before it can be wired to the boards.
+ However, a rare few Commodore-made carts came wired from the factory to
+ use standard 2764 EPROM chips ... if you can find one, it would be easier
+ to experiment with. (And I do mean rare; I have only seen two, myself!)
+ These special carts are in brown plastic cases, with metal labels that
+ have no name printed on them. Instead, there is a metallic sticker stuck
+ on it, with the name of the cartridge. Apparently, limited edition carts.
+ Also, a few later HES carts I've seen also came with EPROMs and sockets.
+ But be careful, as various early carts sometimes used 2 banks of 4k each!
+
+
+    Pinout diagram #4: "MPS 2364" ROM chip
+    (Commodore-standard, 24-pin ROM chip, 8K x 8 bit.)
+            
+            ____    ____
+            |   !__!   |
+       CA7  | 1     24 | +5 Volts
+       CA6  | 2     23 | CA8
+       CA5  | 3     22 | CA9
+       CA4  | 4     21 | CA12
+       CA3  | 5     20 | CS (Chip select, active low)
+       CA2  | 6     19 | CA10
+       CA1  | 7     18 | CA11
+       CA0  | 8     17 | CD7
+       CD0  | 9     16 | CD6
+       CD1  | 10    15 | CD5
+       CD2  | 11    14 | CD4
+       GND  | 12    13 | CD3
+            |__________|
+
+This pinout was derived from a Vic20 schematic, found in the book the
+"Vic20 Programmer's Reference Guide". (Great book!) Please note that while
+this is an 8k-by-8-bit Commodore memory chip (its actually the Kernal chip,
+located at $E000-$FFFF), and that while it could normally be assumed safely
+that a company would standardize and use the same chips in their cartridges
+that they used in their computer's motherboards, this is Commodore we're
+talking about. A bit of paranoia might be in order. Having said that, I'll
+note that as of this writing, the author has not compared this diagram and
+an actual memory chip from a Commodore-produced Vic20 cartridge. 'Nuff said!
+
+
+Information for the diagrams above was taken from the Vic20 reference book 
+"The Vic Revealed" by Nick Hampshire, 1982, Hayden Book Co, Inc. That info 
+was verified by checking it against information found in the "Vic20 
+Programmer's Reference Guide," 1982, by Commodore Business Machines, Inc. 
+and Howard W. Sams & Company, Inc. Other references were checked as noted.
+
+
+       Assorted notes on the diagrams above, and some related subjects.
+
+You are looking at the cart pinout as if you were holding an unopened
+cartridge, label-side up (or right, in these diagrams) with the gold fingers 
+pointing at you. If you are looking at a bare circuit board once it has been 
+taken out of its outer plastic case, the chip is on top (or right, as shown 
+here) again with the gold fingers facing you. (The diagrams were drawn 
+sideways, as the ASCII drawings are somewhat clearer this way, believe it or 
+not. There is less confusion this way over which pin is which. Horizontally, 
+each name takes up more space.)
+
+A perhaps useful experimenter's tip: If you plan to take the circuit board 
+out of the cartridge case, then remove the ROM chip(s) from the circuit board, 
+mark the two sides of the board first, or you may no longer be able to tell 
+which is the top, and which is the bottom! This is especially true if one is 
+removing chips to install sockets. (Any magic marker will do; just write 
+"Bottom" on the "green stuff". Do not write on any exposed metal surfaces.
+
+For experimenting purposes, it might be handy to find a cartridge you no 
+longer care about, desolder the existing ROM chip from the circuit board 
+inside the cartridge and install an IC socket to make it easier to change 
+chips, later. However, note two things about this. One, the socket makes the 
+whole thing taller, and it may no longer fit into a standard case. You can 
+either (carefully!) use the new circuit board without using its outer case, 
+at least for in-house testing, or you may be able to cut a "window" in the 
+top of the case to clear it all. Second, some cartridges don't use standard 
+IC ROM's, so try another cartridge, until you find one that does use a 
+standard DIP package. (Some carts are more "rare" than others; try to use a
+cartridge that isn't super-rare, when cutting and hacking them up, please!)
+
+On all the Vic20 carts the author has opened and seen so far, the ROM chip 
+inside has 24-pins. Standard replacement EPROM's have 28-pins. This creates 
+problems, but not insurmountable ones. It is a bit of a nuisance, but the 
+dedicated experimenter can modify a 24-pin circuit board, to accept any 28-
+pin standard EPROM, such as the 2764 package. If one did not want the hassle 
+of doing this, one other method exists to be able to put your own 8K eprom 
+chips inside; however, it is not cheap. Motorola makes an 8K EPROM that is 
+completely compatible with Commodore's "standard" 24-pin ROM chips. It even 
+works as a direct pin-for-pin replacement for the 8K Kernal and Basic ROM's 
+inside your Vic20 or C64; the author has replaced both types in the past.
+The part number for this EPROM is MCM 68764. It was about $18.00 each. (Yes, 
+it is programmable via the C64's "Promenade" eprom burner too!) I think I got 
+my 68764 years ago, from Jameco Electronics; try them. A 2764 adapter circuit 
+board can be made to adapt the differences in 24-to-28 pin sockets, but it 
+will likely be too tall to fit inside. This Motorola chip may be somewhat hard
+to find; I've been told it is no longer being made. (Try the I'net, for one.)
+
+The memory area located at $A000-BFFF ("Block 5") is normally considered to 
+be a ROM-only block of memory. RAM can be mapped into that space if you 
+modify the cartridge's internal switches/jumpers, to redirect a standard RAM 
+cartridge to load higher up in memory. However, BASIC cannot normally access 
+that area, as it is meant to be for ROM's only. This is important, if one 
+wishes to archive an 8K autostart ROM cartridge (normally located in block 5)
+and run the resulting ROM image from within RAM. It can be done, but you have 
+to modify a standard 8K RAM cartridge to do it. (Ground "BLK 5", and cut any 
+trace or jumper that tells the cart to load into a different area.)
+
+Note also that some carts may be copy-protected, and will not run in RAM 
+without modification or "training," to alter the copy protection. Some carts
+that have copy protection coded into them, try to overwrite themselves. Some
+carts apparently use a more sophisticated timing-based approach; they know if
+you have just turned the machine on, or if you've been loading an image up. A
+few carts use very subtle methods to protect themselves from being archived.
+
+Trying to relocate a machine language program from the memory area where it 
+was written, and intended to be, and to have it actually work afterwards, is 
+not advised. It will not work! At least, not without doing so many difficult
+modifications to the machine language object code that you may as well just 
+start over and reprogram it all from scratch. For most people, don't bother 
+trying. To me, the idea is to get the real actual code as written, anyway.
+
+Similar problems confront the user who wishes to archive a tape or a diskette-
+based original. Trying to make a cartridge out of it, isn't worth the huge 
+headaches. You are better off, in this case, trying to archive tape-based 
+programs to floppy disk (which will still require a little modification, but 
+not as much), and floppies to floppies. But if you can do it, more power...
+
+And last but not least: on all the NTSC Vic20 motherboards I looked at (4 or 
+5), the BASIC memory chip is labeled "UE11", while the Kernal chip is labeled 
+as "UE12". My PAL schematic lists these two as UD5 and UD6, respectively. The 
+Basic memory map area is at $C000-DFFF. Kernal is at $E000-FFFF. The only 
+other 24-pin chip is the Character Generator; its 4K, not 8K.
+

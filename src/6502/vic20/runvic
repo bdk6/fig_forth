@@ -1,0 +1,2 @@
+xvic -basic basic -kernal kernal -chargen chargen -memory all -cartA hes-vic-forth.rom
+

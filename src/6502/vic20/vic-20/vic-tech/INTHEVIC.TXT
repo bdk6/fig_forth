@@ -1,0 +1,333 @@
+
+                        ======================
+                       =                      =
+                      =   Inside your Vic 20   =
+                      =     By Ward Shrake     =
+                       =                      =
+                        ======================
+
+
+This document is a collection of pinout diagrams and technical notes, meant
+to assist anyone who wishes to experiment electronically with the "obsolete" 
+Commodore Vic20 computer. Specifically, this document addresses the cartridge
+or Memory Expansion port and related items, such as ROM & EPROM memory chips. 
+
+This is a very preliminary version of a document which could be expanded, if
+I decide to go even more ballistic, later on. All this text was written out in
+one day, with no prior planning, so if its a little jumpy, that's why. Later
+versions should be better. Right now, probably anything helps, so here it is.
+(Additions, corrections or whatever can be sent via email to the author.)
+
+Ward Shrake, July 1995
+
+
+----------------------------------------------------------------------------
+  Pinout diagram #1: Memory Expansion port connector of the Vic20 computer
+----------------------------------------------------------------------------
+
+Below is the pinout diagram of the Vic20 cartridge port, or Memory Expansion
+Connector. Please note that this is NOT the pinout for a cartridge that might
+fit into any port, nor is it a pinout of the User Port, which is something 
+completely different. This diagram shows the cartridge port's pinout, as you 
+face the rear of the Vic 20 computer. (The port is on the Vic20's left side.)
+       
+Bottom side of expansion port.       Top side of expansion port.
+(This half is on bottom.)            (This half is towards the keyboard.)
+
+          (This edge of the connector faces left,
+          where the power switch and the LED are.)
+
+                        _________    
+                        |  ___  |
+         GND         A  |  | |  |   1       GND                   
+         CA0         B  |  | |  |   2       CD0
+         CA1         C  |  | |  |   3       CD1
+         CA2         D  |  | |  |   4       CD2
+         CA3         E  |  | |  |   5       CD3
+         CA4         F  |  | |  |   6       CD4
+         CA5         H  |  | |  |   7       CD5          
+         CA6         J  |  | |  |   8       CD6 
+         CA7         K  |  | |  |   9       CD7       (Memory Location:)
+         CA8         L  |  | |  |   10      BLK 1       ($2000 - $3fff) 
+         CA9         M  |  | |  |   11      BLK 2       ($4000 - $5fff)
+         CA10        N  |  | |  |   12      BLK 3       ($6000 - $7fff)
+         CA11        P  |  | |  |   13      BLK 5       ($a000 - $bfff)
+         CA12        R  |  | |  |   14      RAM 1       ($0400 - $07ff)
+         CA13        S  |  | |  |   15      RAM 2       ($0800 - $0bff)
+         I/O 2       T  |  | |  |   16      RAM 3       ($0c00 - $0fff)
+         I/O 3       U  |  | |  |   17      V R/W 
+         S02         V  |  | |  |   18      C R/W 
+         NMI         W  |  | |  |   19      IRQ 
+         RESET       X  |  | |  |   20      NC 
+         NC          Y  |  | |  |   21      +5 Volts 
+         GND         Z  |  | |  |   22      GND 
+                        |  ---  |
+                        ---------     
+
+          (This edge of the connector is on the
+          right, where all the other ports are.)
+
+
+Pinout Notes:
+-------------
+BLKxx =  8K decoded RAM/ROM block xx, active low. See chart above for area.
+CAxx  =  Address bus line xx
+CDxx  =  Data bus line xx
+C R/W =  Read/Write line from CPU. (Read = high, Write = low)
+GND   =  System ground
+I/O 2 =  Decoded I/O block 2, starting at $9130
+I/O 3 =  Decoded I/O block 3, starting at $9140
+IRQ   =  6502 Interrupt Request line (active low)
+NC    =  No connection
+NMI   =  6502 Non-Maskable Interrupt line (active low)
+RAMxx =  1K decoded RAM blockxx, active low. See chart above for memory area.
+RESET =  6502 reset line (active low) 
+S02   =  Phase 2 system clock
+V R/W =  Read/Write line from Vic chip. (Read = high, Write = low)
+
+
+
+-----------------------------------------------------------------------
+  Pinout diagram #2: A standard Vic20 cartridge's card edge connector
+-----------------------------------------------------------------------
+
+Below is a pinout diagram of a standard Vic20 cartridge, seen facing its card
+edge connector. Please note that this is NOT the pinout of the port it plugs 
+into, which is shown above. The two pinouts are exact opposites, because you 
+are facing the port head-on as is, but you have to flip a cartridge around
+180 degrees to be able to look at it head-on, facing its card edge connector.
+
+
+ Bottom side of cartridge      Top (label or component) side of cartridge
+
+                         _-_    
+         GND         Z   | |   22    GND    
+         NC          Y   | |   21    +5 Volts
+         RESET       X   | |   20    NC
+         NMI         W   | |   19    IRQ
+         S02         V   | |   18    C R/W
+         I/O 3       U   | |   17    V R/W     (Memory location:)
+         I/O 2       T   | |   16    RAM 3       ($0c00 - $0fff)
+         CA13        S   | |   15    RAM 2       ($0800 - $0bff)
+         CA12        R   | |   14    RAM 1       ($0400 - $07ff)
+         CA11        P   | |   13    BLK 5       ($a000 - $bfff)
+         CA10        N   | |   12    BLK 3       ($6000 - $7fff)
+         CA9         M   | |   11    BLK 2       ($4000 - $5fff)
+         CA8         L   | |   10    BLK 1       ($2000 - $3fff)
+         CA7         K   | |   9     CD7
+         CA6         J   | |   8     CD6
+         CA5         H   | |   7     CD5
+         CA4         F   | |   6     CD4
+         CA3         E   | |   5     CD3
+         CA2         D   | |   4     CD2
+         CA1         C   | |   3     CD1
+         CA0         B   | |   2     CD0
+         GND         A   | |   1     GND
+                         -_-
+
+
+--------------------------------------------------
+   Pinout diagram #3: EPROM # 2764A 
+   (This is a standard, 8K x 8 bit memory chip)
+--------------------------------------------------
+
+            ____    ____
+            |   !__!   |
+        Vpp | 1     28 | Vcc  (+5 Volts)
+        A12 | 2     27 | PGM  (Active low) 
+        A7  | 3     26 | N.C. (No connection)
+        A6  | 4     25 | A8
+        A5  | 5     24 | A9
+        A4  | 6     23 | A11
+        A3  | 7     22 | OE  (Output Enable; Active low)
+        A2  | 8     21 | A10
+        A1  | 9     20 | CE  (Chip Enable; Active low)
+        A0  | 10    19 | D7
+        D0  | 11    18 | D6
+        D1  | 12    17 | D5
+        D2  | 13    16 | D4
+        GND | 14    15 | D3
+            |__________|
+
+ See Note 6 below, for some tips on using this as a replacement memory 
+ chip, on a modified cartridge body, for experimentation purposes. Note
+ that there are differences between it and the standard Vic20 chip below, 
+ that will have to be accounted for before it can be wired to the boards.
+
+
+--------------------------------------------------------
+    Pinout diagram #4: "MPS 2364" ROM chip
+    (Commodore-standard, 24-pin ROM chip, 8K x 8 bit.) 
+--------------------------------------------------------
+
+            ____    ____
+            |   !__!   |
+       CA7  | 1     24 | +5 Volts 
+       CA6  | 2     23 | CA8
+       CA5  | 3     22 | CA9
+       CA4  | 4     21 | CA12
+       CA3  | 5     20 | CS (Chip select, active low)
+       CA2  | 6     19 | CA10
+       CA1  | 7     18 | CA11
+       CA0  | 8     17 | CD7
+       CD0  | 9     16 | CD6
+       CD1  | 10    15 | CD5
+       CD2  | 11    14 | CD4
+       GND  | 12    13 | CD3
+            |__________|
+
+
+This pinout was derived from a Vic20 schematic, found in the book the 
+"Vic20 Programmer's Reference Guide". (Great book!) Please note that while
+this is an 8k-by-8-bit Commodore memory chip (its actually the Kernal chip, 
+located at $E000-$FFFF), and that while it could normally be assumed safely 
+that a company would standardize and use the same chips in their cartridges 
+that they used in their computer's motherboards, this is Commodore we're 
+talking about. A bit of paranoia might be in order. Having said that, I'll 
+note that as of this writing, the author has not compared this diagram and 
+an actual memory chip from a Commodore-produced Vic20 cartridge. 'Nuff said!
+
+
+---------------------------------------------------------------------------
+  Assorted notes on the diagrams above, and related subjects. (No order.)
+---------------------------------------------------------------------------
+
+
+Note 1: Information for the diagrams above was taken from the Vic20 reference
+        book "The Vic Revealed" by Nick Hampshire, 1982, Hayden Book Co, Inc.
+        That info was verified by checking it against information found in 
+        the "Vic20 Programmer's Reference Guide," 1982, by Commodore Business
+        Machines, Inc. and Howard W. Sams & Company, Inc.
+
+Note 2: You are looking at the cart pinout as if you were holding an unopened 
+        cartridge, label-side up (or right, in these diagrams) with the gold 
+        fingers pointing at you. If you are looking at a bare circuit board 
+        once it has been taken out of its outer plastic case, the chip is on 
+        top (or right, as shown here) again with the gold fingers facing you. 
+        (The diagrams were drawn sideways, as the ASCII drawings are somewhat
+        clearer this way, believe it or not. There is less confusion this way
+        over which pin is which. Horizontally, each name takes up more space.)
+
+Note 3: Radio Shack currently (as of July 1995) carries a part that works as
+        a Memory Expansion Port connector for the Vic20. However, they are
+        discontinuing it, and are selling off all remaining stock. Their part
+        number is 276-1551 for their "44-position card-edge connector." Once 
+        these are gone, you'll have to find another source for them. ($1.27) 
+        This part is useful for experimenting with this port on the Vic20, as 
+        it is a perfect fit, as is, to accept standard plug-in Vic cartridges.
+
+Note 4: A perhaps useful experimenter's tip: If you plan to take the circuit 
+        board out of the cartridge case, then remove the ROM chip(s) from the
+        circuit board, mark the two sides of the board first, or you may no
+        longer be able to tell which is the top, and which is the bottom! 
+        This is especially true if one is removing chips to install sockets.
+        (Any magic marker will do; just write "Bottom" on the "green stuff".
+        Do not write on top of any exposed metal surfaces or the gold pins!)
+
+Note 5: For experimenting purposes, it might be handy to find a cartridge you
+        no longer care about, desolder the existing ROM chip from the circuit
+        board inside the cartridge and install an IC socket to make it easier
+        to change chips, later. However, note two things about this. One, the
+        socket makes the whole thing taller, and it may no longer fit into a
+        standard case. You can either (carefully!) use the new circuit board
+        without using its outer case, at least for in-house testing, or you
+        may be able to cut a "window" in the top of the case to clear it all.
+        Second, some cartridges don't use standard IC ROM's, so try another 
+        cartridge, until you find one that does use a standard DIP package.
+
+Note 6: On all the Vic20 carts the author has opened and seen so far, the ROM
+        chip inside has 24-pins. Standard replacement EPROM's have 28-pins. 
+        This creates problems, but not insurmountable ones. It is a bit of a 
+        nuisance, but the dedicated experimenter can modify a 24-pin circuit
+        board, to accept any 28-pin standard EPROM, such as the 2764 package.
+        If one did not want the hassle of doing this, one other method exists
+        to be able to put your own 8K eprom chips inside; however, it is not 
+        cheap. Motorola makes an 8K EPROM that is completely compatible with 
+        Commodore's "standard" 24-pin ROM chips. It even works as a direct 
+        pin-for-pin replacement for the 8K Kernal and Basic ROM's inside your
+        Vic20 or your C64; the author has replaced both types in the past.
+        The part number for this EPROM is MCM 68764. It is about $18.00 each.
+        (Yes, it is programmable via the C64's "Promenade" eprom burner too!)
+        I think I got my 68764 years ago, from Jameco Electronics; try them.
+        (A 2764 adapter circuit board can be made to adapt the differences in 
+        24-to-28 pin sockets, but it will likely be too tall to fit inside.)
+
+Note 7: A reset button can be wired into the Vic20 fairly simply. This might
+        be a good idea, if one plans to experiment much. The Vic20, or any
+        computer, might lock up when you've told it to do something odd while
+        experimenting. Simply use a momentary-contact, normally-open switch, 
+        wired between the RESET line and any port GND line. When you press 
+        the new button for a second and let go, the computer will reset. This 
+        is because the RESET line is active low, and your switch grounds that 
+        line. If you decide to do this *inside* your Vic20, remember you are 
+        now looking at the *back* of the port, NOT the front. Therefore, use 
+        the pinout diagram for a cartridge, not the port, to find the lines.
+        Radio Shack switch part number 275-1547 or equivalent will work fine.  
+
+Note 8: The memory area located at $A000-BFFF ("Block 5") is normally 
+        considered to be a ROM-only block of memory. RAM can be mapped into
+        that space if you modify the cartridge's internal wires or jumpers, 
+        to redirect a standard RAM cartridge to load higher up in memory. 
+        However, BASIC cannot normally access that area, as it is meant to
+        be for ROM's only. This is important, if one wishes to archive an
+        8K autostart ROM cartridge (normally located in block 5), and run the
+        resulting ROM image from within RAM. It can be done, but you have to
+        modify a standard 8K RAM cartridge to do it. (Ground BLK 5, and cut
+        any trace or jumper that tells the cart to load in a different area.)
+        
+        Note also that some carts may be copy-protected, and will not run in
+        RAM without modification or "training," to alter the copy protection.
+
+        It may be possible to get around this copy-protection (but the author
+        hasn't tried it yet) by modifying the read/write lines, so that after
+        loading the program's ROM image into RAM memory, you flip a switch 
+        first, then type in the SYS command to start the program up. If this
+        idea works, it would emulate ROM by not being able to be written to, 
+        when the copy protection tries to determine if the copy is in RAM or 
+        ROM. Of course, when reprogrammed into an EPROM, it will act as if it
+        were ROM anyway, so this may no longer matter in that case.
+
+Note 9: Trying to relocate a machine language program from the memory area
+        where it was written in and intended to be, and to have it actually
+        work afterwards, is not advised. It won't work, without doing so
+        many modifications to the machine language object code that you may
+        as well just start over and reprogram it all. Don't bother trying. 
+        It seems the idea is to get the real, actual code as written, anyway.
+
+        Similar problems confront the user who wishes to archive a tape or a
+        diskette-based original. Trying to make a cartridge out of it, isn't
+        worth the huge headaches. You are better off, in this case, trying to
+        archive tape-based programs to floppy disk (which will still require 
+        a little modification, but not as much), and floppies to floppies.
+        
+Note 10: Some FTP archives exist on the Internet for the Vic20 enthusiast. 
+        ("ftp.funet.fi" in Finland, and "ftp.hrz.uni-kassel.de" in Denmark.)
+
+        When downloading archived ROM images from these places, one should
+        be aware that they are missing two bytes that the Commodore Vic20 and
+        the Commodore 64 computers consider absolutely critical to load and
+        use files with. These are the first two bytes of any Commodore file,
+        which tells the computer a program's "Starting address," or where to 
+        load it into memory. If its not in the right place, it will not work. 
+        Period. Even one byte off, and it will not work. These raw image 
+        files include only the ROM's internal codes, and no starting address.
+
+        The FTP site in Denmark has some instructions on how to add these two
+        bytes to a file, using a Commodore Vic20 compatible disk drive. The
+        author made an executable program that does this on the IBM, but it
+        isn't very user-friendly at this point. It does work, however, and as
+        soon as it will pass muster publicly, I plan to upload it to both FTP
+        sites. This program, when available to the public, is meant to be used
+        after a ROM image file has been downloaded onto an IBM computer, but 
+        before the user transfers it to a Commodore-compatible diskette, using
+        whatever process the user likes most. (The "X-1541" user-built cable 
+        which connects the IBM printer port to the CBM serial port, is the 
+        author's favorite way of transferring files from IBM to CBM and back.)
+
+Note 11: On all the NTSC Vic20 motherboards I looked at (4 or 5), the BASIC
+        memory chip is labeled "UE11", while the Kernal chip is labeled as
+        "UE12". My PAL schematic lists these two as UD5 and UD6, respectively.
+        The Basic memory map area is at $C000-DFFF. Kernal is at $E000-FFFF.
+        The only other 24-pin chip is the Character Generator; its 4K, not 8K.
+
+Ward Shrake, July 1995

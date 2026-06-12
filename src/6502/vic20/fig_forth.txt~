@@ -1,0 +1,109 @@
+fig-FORTH for 6502, Re1 1.1 ...... PAGE 0001
+LINE if LOC CODE LINE
+,
+9 Through the courtesy of
+9
+9 FORTH INTEREST GROUP 9 P. 0. BOX 1105
+7 San Carlos, CA 94070
+9
+Y Release 1.1
+9 With compiler security
+9 and
+y variable length names
+9
+; Further distribution must include the above notice
+; The FIG Installation Manual is required as it
+; contains the model of FORTH and glossary of the system.
+; Available from FIG at the above address for $10.00 postpai
+i
+; Translated from the FIG Model by W. F. Ragsdale
+; with input-output given for the Rockewell System-65.
+; Transportation to other systems only requires
+; alteration of: XEMIT, XKEY, XQTER, XCR, and RSLW.
+¶
+; Equates giving memory assigments, machine
+; registers, and disk parameters.
+¶
+3
+SSIZE
+NBUF
+9
+SECTR
+s
+SECTL
+¶
+BMAG
+1
+s
+BOS
+TOS
+N
+I P
+W
+UP
+XSAVE
+s
+T IBX
+ORIG
+MEM
+UAREA
+DAREA
+9
+s
+9
+OUTCH
+INCH
+TCR
+¶
+=I28 sector size in bytes
+58 ; number of buffers desired in ram
+(SSIZE*NBUF >= 1024 bytes)
+=800 sectors per drive
+forcing hi drive to Screen #I00
+=I600 sector limit for 2 drives
+of 800 sectors per drive
+01056 total buffer magnitude, in bytes
+expressed by SSIZEf4*NBUF
+bottom of data stack, in z-page.
+top of data stack, in z-page.
+xXxxxxxxx scratch workspace
+Xx interpretive pointer
+xXx code field pointer
+Xx user area pointer
+X temporary for X register
+=$0100 terminal input buffer of 84 bytes.
+=$0200 origin of FORTH's dictionary.
+~$4000 top of assigned memory+l byte.
+=MEM-128 128 bytes of user area
+=UAREA-BMAG disk buffer area
+Monitor calls for terminal support
+=$D2C1 ; output one ASCII character to termina
+=$D 1DC ; input one ASCII character from termina
+=$DOFl ; terminal return and line feed
+9
+; From DAREA downward to the top of the dictionary is free
+; space where the user's applications are compiled.
+
+
+;
+;  Through the courtesy of
+;
+;  FORTH INTEREST GROUP
+;  P. O. Box 1105
+;  San Carlos, CA  94070
+;
+;  Release 1.1
+;  With compiler security
+;          and
+;  varialbe length names
+;
+; Further distribution must include the above notice
+; The FIG Installation Manual is required as it
+; contains the model of FORTH and glossary of the system.
+; Available from FIG at the above address for $10.00 postpaid
+;
+; Translated from the fIG model by W. F. Ragsdale
+; with input-output given for teh Rockwell System-65.
+; Transportation to other systems only requires
+; alteration of:  XEMIT, XKEY, XQTER, XCR, and RSLW.
+;

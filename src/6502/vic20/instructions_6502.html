@@ -1,0 +1,93 @@
+<html>
+<head>
+  <title> 6502 Instruction Set </title>
+</head>
+<body>
+
+<table>
+
+
+
+<tr> <td> INSTR </td> <td>OPCODE</td><td>IMP</td><td>ACC</td>
+    <td>ABS</td><td>0 PG</td><td>IMM</td><td>"AB,X"</td><td>"AB,Y"</td>
+    <td>"(IND,X)"</td><td>"(IND),Y"</td><td>"0PG,X"</td><td>"0PG,Y"</td>
+    <td>REL</td><td>IND</td><td>N</td><td>V</td><td>B</td><td>D</td>
+    <td>I</td><td>Z</td><td>C</td></tr>
+<tr> <td>ADC</td><td></td><td></td><td></td><td>6D</td><td>65</td>
+    <td>69</td><td>7D</td><td>79</td><td>61</td><td>71</td><td>75</td>
+    <td></td><td></td><td></td><td>X</td><td>X</td><td></td><td></td>
+<td></td><td>X</td><td>X</td></tr>
+<tr><td>AND</td><td>OPCODE</td<td></td><td></td><td></td><td>2D</td>
+    <td>25</td><td>29</td><td>3D</td><td>39</td><td>21</td><td>31</td>
+    <td>35</td><td></td><td></td><td></td><td>X</td><td></td><td></td>
+    <td></td><td></td><td>X</td></tr>
+
+<tr><td>ASL</td><td>OPCODE</td><td></td><td>0A</td><td>0E</td><td>6</td>
+    <td></td><td>1E</td><td></td><td></td><td></td><td>16</td><td></td>
+    <td></td><td></td><td>X</td><td></td><td></td><td></td><td></td><td>X</td><td>X</tr>
+
+<tr><td>BCC</td><td>OPCODE</td><td></td><td></td><td></td><td></td><td></td>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td>90</td><td></td>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></tr>
+
+BCS,OPCODE,,,,,,,,,,,,B0,,,,,,,,
+BEQ,OPCODE,,,,,,,,,,,,F0,,,,,,,,
+BIT,OPCODE,,,2C,24,,,,,,,,,,M7,M6,,,,X,
+BMI,OPCODE,,,,,,,,,,,,30,,,,,,,,
+BNE,OPCODE,,,,,,,,,,,,D0,,,,,,,,
+BPL,OPCODE,,,,,,,,,,,,10,,,,,,,,
+BRK,OPCODE,0,,,,,,,,,,,,,,,X,,,,
+BVC,OPCODE,,,,,,,,,,,,50,,,,,,,,
+BVS,OPCODE,,,,,,,,,,,,70,,,,,,,,
+INSTR,OPCODE,IMP,ACC,ABS,0 PG,IMM,"AB,X","AB,Y","(IND,X)","(IND),Y","0PG,X","0PG,Y",REL,IND,N,V,B,D,I,Z,C
+CLC,OPCODE,18,,,,,,,,,,,,,,,,,,,0
+CLD,OPCODE,D8,,,,,,,,,,,,,,,,0,,,
+CLI,OPCODE,58,,,,,,,,,,,,,,,,0,,,
+CLV,OPCODE,B8,,,,,,,,,,,,,,0,,,,,
+CMP,OPCODE,,,CD,C5,C9,DD,D9,C1,D1,D5,,,,X,,,,,X,X
+CPX,OPCODE,,,EC,E4,E0,,,,,,,,,X,,,,,X,X
+CPY,OPCODE,,,CC,C4,C0,,,,,,,,,X,,,,,X,X
+DEC,OPCODE,,,CE,C6,,DE,,,,D6,,,,X,,,,,X,
+DEX,OPCODE,CA,,,,,,,,,,,,,X,,,,,X,
+DEY,OPCODE,88,,,,,,,,,,,,,X,,,,,X,
+EOR,OPCODE,,,4D,45,49,5D,59,41,51,55,,,,X,,,,,X,
+INC,OPCODE,,,EE,E6,,FE,,,,F6,,,,X,,,,,X,
+INX,OPCODE,E8,,,,,,,,,,,,,X,,,,,X,
+INY,OPCODE,C8,,,,,,,,,,,,,X,,,,,X,
+INSTR,OPCODE,IMP,ACC,ABS,0 PG,IMM,"AB,X","AB,Y","(IND,X)","(IND),Y","0PG,X","0PG,Y",REL,IND,N,V,B,D,I,Z,C
+JMP,OPCODE,,,4C,,,,,,,,,,6C,,,,,,,
+JSR,OPCODE,,,20,,,,,,,,,,,,,,,,,
+LDA,OPCODE,,,AD,A5,A9,BD,B9,A1,B1,B5,,,,X,,,,,X,
+LDX,OPCODE,,,AE,A6,A2,,BE,,,,B6,,,X,,,,,Z,
+LDY,OPCODE,,,AC,A4,A0,BC,,,,B4,,,,X,,,,,X,
+LSR,OPCODE,,4A,4E,r6,,5E,,,,56,,,,0,,,,,X,X
+NOP,OPCODE,EA,,,,,,,,,,,,,,,,,,,
+ORA,OPCODE,,,0D,5,9,1D,19,1,11,15,,,,X,,,,,X,
+PHA,OPCODE,48,,,,,,,,,,,,,,,,,,,
+PHP,OPCODE,8,,,,,,,,,,,,,,,,,,,
+PLA,OPCODE,68,,,,,,,,,,,,,X,,,,,X,
+PLP,OPCODE,28,,,,,,,,,,,,,X,X,X,X,X,X,X
+ROL,OPCODE,,2A,2E,26,,3E,,,,36,,,,X,,,,,X,X
+ROR,OPCODE,,6A,6E,66,,7E,,,,76,,,,X,,,,,X,X
+INSTR,OPCODE,IMP,ACC,ABS,0 PG,IMM,"AB,X","AB,Y","(IND,X)","(IND),Y","0PG,X","0PG,Y",REL,IND,N,V,B,D,I,Z,C
+RTI,OPCODE,40,,,,,,,,,,,,,X,X,X,X,X,X,X
+RTS,OPCODE,60,,,,,,,,,,,,,,,,,,,
+SBC,OPCODE,,,ED,E5,E9,FD,F9,E1,F1,F5,,,,X,X,,,,X,X
+SEC,OPCODE,38,,,,,,,,,,,,,,,,,,,1
+SED,OPCODE,F8,,,,,,,,,,,,,,,,1,,,
+SEI,OPCODE,78,,,,,,,,,,,,,,,,,1,,
+STA,OPCODE,,,8D,85,,9D,99,81,91,95,,,,,,,,,,
+STX,OPCODE,,,8E,86,,,,,,,96,,,,,,,,,
+STY,OPCODE,,,8C,84,,,,,,94,,,,,,,,,,
+TAX,OPCODE,AA,,,,,,,,,,,,,X,,,,,X,
+TAY,OPCODE,A8,,,,,,,,,,,,,X,,,,,X,
+TSX,OPCODE,BA,,,,,,,,,,,,,X,,,,,X,
+TXA,OPCODE,8A,,,,,,,,,,,,,X,,,,,X,
+TXS,OPCODE,9A,,,,,,,,,,,,,,,,,,,
+TYA,OPCODE,98,,,,,,,,,,,,,X,,,,,X,
+INSTR,OPCODE,IMP,ACC,ABS,0 PG,IMM,"AB,X","AB,Y","(IND,X)","(IND),Y","0PG,X","0PG,Y",REL,IND,N,V,B,D,I,Z,C
+
+</table>
+</body>
+</html>
+

@@ -1,0 +1,279 @@
+   -------------------------------------------------------------------------
+       Short technical tutorial on Vic20 ROM cartridges, including notes 
+       on cartridge archiving methods, and the Vic autostart process.
+   -------------------------------------------------------------------------
+
+A Vic20 cartridge is approximately 5.5 inches wide, 3 and 3/8ths inches deep,
+and 5/8ths inches tall, when viewed as if ready to be installed. Standard
+configurations are 8K and 16K of 8-bit ROM memory, using one or two chips of 
+ROM memory onboard. If other standard cartridge memory configurations exist, 
+the author is currently unaware of them. (But would like to hear of any, if 
+they do/did exist, and especially if they were once made commercially.)
+
+Inside a typical Vic20 cartridge is one double-sided, etched circuit board, 
+with some form of memory chip installed. This may be a "standard" IC chip as 
+we are used to seeing (24 or 28 pin ROM, in a DIP package), or it could be 
+a blank circuit board, with a tiny blob of black epoxy material on it, under 
+which are presumably the internal components of a typical, normal ROM chip. 
+
+The standard circuit board size is approximately 3 and 9/16ths inches wide, 
+and 1 and 3/4 inches deep. A cart fits into a 44-position, double-sided card 
+edge connector, which is a permanent part of the Vic20 itself, in the back.
+
+On the cart circuit board itself may (or may not) be several wire traces or 
+jumpers, which if there, are meant to configure the cartridge to a certain
+memory arrangement. These jumpers are meant to connect the BLK or RAM lines
+to the system ground. These lines, when connected, tell the Vic20 where to 
+place the cartridge within the Vic20's internal memory map scheme. 
+
+While all "normal," autostart game cartridge are located in one fixed area
+of memory, this is not true with all cartridges, game or not. Some of the 
+earliest cartridges did not use the autostart procedure for whatever reason,
+(presumably because they did not know it existed, at that early stage?) and 
+those are located in "non-standard" memory locations. The Vic20 was built
+and designed when memory was expensive, and computers were designed to be 
+bare-bones memory-wise, but with the capability to expand on later. This may
+take some getting used to at first, but understanding it gets easier in time.
+
+16K cartridges, for example, generally have one 8K ROM block located from 
+$A000-$BFFF, and another 8K ROM block located at $6000-7FFF. If a cartridge 
+was factory-made not to autostart; in other words, if it needs you to type in 
+a "SYS" number to start it, its memory could be located in any block. 
+
+The "normal" spot for an 8K cartridge to be located in memory is in "Block 5" 
+(which is located at $A000 to $BFFF). Again, this is not the only possible 
+spot in memory for a cartridge to be located, but it is the only spot where 
+the Vic20 will look for a cartridge that automatically starts on power-up.
+        
+This is because (at power up) the Vic20 looks for a precise code in a precise 
+spot, to see if it should autostart a cartridge or not. If the Vic20 finds 
+this *exact* five-byte code, *exactly* where it is supposed to be located in 
+memory, the Vic20 turns control over to the cartridge. If not, it gives over
+control to the user, via the normal, power-up Basic READY prompt screen. 
+       
+
+        This 8K autostart sequence code is shown below:
+
+        Address______Hex value_____Decimal value____ASCII values
+        $A004        $41           65               Capitol "A"    
+        $A005        $30           48               Digit "zero"
+        $A006        $C3           195              Reverse "C" character
+        $A007        $C2           194              Reverse "B" character
+        $A008        $CD           205              Reverse "M" character
+        
+If the computer finds this five-byte sequence exactly as shown, it          
+turns control over to the machine language program in the cartridge.
+To do so, it needs to know where the program begins. There are four
+bytes which determine this, as shown below: (Also within the cart.)
+
+        Address______What this byte of information contains__________
+        $A000        Low-byte of a 16-bit "hard start" address (to begin at)
+        $A001        High-byte of the 16-bit "hard start" address
+        
+        $A002        Low-byte of 16-bit "warm start" address (restore key)
+        $A003        High-byte of 16-bit "warm start" address
+
+This is all very important when trying to archive an image of the information
+contained on a ROM cartridge. Altering either of the two required parts of 
+this sequence, causes the cartridge to not autostart, but to be mapped into 
+memory properly, anyway. Assuming a certain level of technical expertise, a 
+user can do one of two (or more?) things to achieve this. 
+        
+One is to move the cartridge's starting location temporarily, so that the 
+code is present, but not in the right place. This can be done by altering the 
+physical traces on each cartridge's circuit board. This is undesirable, 
+except perhaps for self-training purposes, as every single cartridge would 
+have to be individually modified, archived, then reassembled for normal use. 
+Permanently modifying the Vic20's internal wiring is also possible, but 
+hardly desirable, as permanent damage to the Vic20 might also result.
+        
+The best way I could recommend for this would be to have a qualified tech 
+build or wire a cartridge-port pass-through device, where nearly all the 
+traces re-connected where they are supposed to, except for a critical few. 
+Using a 44-position card edge connector, some wire and a junk cartridge (or
+etched circuit board like a cartridge's pins), this could be done. Most wires
+would start at the card edge, where you'd plug the device into the Vic20, and 
+pass-through harmlessly to the card edge connector, where carts would plug in.
+
+This device reroutes the "BLK 5" trace, preferably by use a "normal/modified" 
+switch, so that even though the cartridge intends to load at $A000, it loads 
+to another 8K block of memory instead. Whichever one you wire it to; perhaps 
+Block 1 or 3. Make the switch(es) act as a simple pass-through, normally, but
+disconnect the "Block 5 to ground line" while at the same time connecting the 
+"Block X line to ground", to remap where the cartridge will temporarily go.
+
+This device would ideally be plug-in-able and removable, like a cartridge, so 
+as to require no modifications to either the Vic20 or cartridges. A reset 
+button could also be installed in the device, as well, while you're at it. If
+you use an old cartridge as your plug-in on the Vic20 end, cut all traces that
+still go to the existing chip(s). Solder wire ends onto the portions that exit
+the Vic20, and route them to your external plug-in connector box. If you use
+ribbon cable as your wiring, you can probably even sneak the wire out the back
+of the existing cartridge's case, as there is a wide slot in most Vic cases!
+
+This method will allow you to temporarily re-map where the cartridge image
+will appear in memory, to defeat the autostart feature. Once this is defeated
+the technically-inclined user who is familiar enough with Commodore computers
+can copy the information to tape or diskette for storage. This takes some 
+knowledge and expertise, but can be learned. Some help is offered; see below.
+
+The user should understand that if this method (memory relocation) is used to
+defeat the autostart feature, and to thereby attempt to archive a cart's ROM,
+the work is not over. Once archived to disk, the hard part is done, true, but
+when you saved it to diskette, it was saved with a now-incorrect starting 
+address. Before the image can be used further, this has to be corrected.
+
+This can be changed, fairly easily, by someone who knows how, but it requires 
+knowledge of using a software tool called a "disk sector editor" to change 
+the now-incorrect high-byte of the relocated starting address, to the correct
+unrelocated high byte: where it would have been, before you moved it. To do 
+so, you find the first disk sector of the ROM image file, and change the 
+fourth byte in (not byte $04!) to be $A0, resave the sector, and you're done.
+After this modification, your ROM image files will now load where they should,
+(into $A000 RAM, if you have it), and are ready for further processing. 
+
+Even the common C64 "Fastload" utility cart has a very servicable sector 
+editor in it, so it isn't as bad as it may have sounded. Still, you need to 
+know how to use it, and what to change, so it is best left to a professional.
+
+To actually save the block of memory to tape/disk, you either use the memory
+save feature of a machine language monitor program (not built in) to save the
+8K block of ROM memory temporarily, or you can change certain POKE's in the 
+Vic20's memory, to tell it your cartridge is located in the Basic program 
+memory area, so that the normal SAVE command works. The beauty of the latter
+is that no additional programs are needed to make this work; just type in four
+POKE commands, then tell it to SAVE as it would normally save a Basic program.
+
+For those of you already familiar enough with Commodore's style and memory
+arrangement schemes to make sense of this, bytes 43 and 44 (decimal, not hex) 
+are the pointers to the Start of Basic memory area, and bytes 45 and 46 are 
+the pointers to the Start of Variables, or in other words, the End of Basic.
+Follow this chart, to save a block of memory from these areas via pokes:
+
+
+   Block #___Hex Address____Poke 43,x___Poke 44, x___Poke 45, x__Poke 46, x
+     5       $a000-bfff      x = 0       x = 160      x = 0      x = 192      
+     3       $6000-7fff      x = 0       x = 96       x = 0      x = 128
+     2       $4000-5fff      x = 0       x = 64       x = 0      x = 96
+     1       $2000-3fff      x = 0       x = 32       x = 0      x = 64
+                                                                    
+
+The above is only one possible way to archive an 8K block of Vic20 memory.
+However, a second method exists, requiring some Vic20 modifications. A truly
+hard-core Vic user could alter the copy of the startup code that is stored in 
+the Kernal ROM chip, so that no normally-correct autostart sequence code ever 
+matches it as long as your new Kernal is in place.
+        
+Remember, there must always be *two* copies of the start-up code; one in the 
+cartridge itself and one stored in the computer for comparison. If either of 
+these two seperate codes are altered, even slightly, it will not autostart! 
+
+The cartridge gets mapped into memory at its correct location, but the Basic 
+"READY" screen comes up instead, giving the user full control. Once you've
+achieved this, you simply do four pokes (to change the start and end of BASIC
+memory to match where the cart code is), or save the info with an ML monitor.
+
+With some work and an "MCM 68764" 8K EPROM, this can be done. It is not just
+a vague theory; the author has done it. It works, as does a similar technique 
+for doing the same general thing with the Commodore 64 computer. (With the 
+appropriate changes, of course, to reflect the C64's different architecture 
+and memory map; the C64 codes are "CBM80" instead of "A0CBM", and the Kernal 
+expects that code to be in a cartridge at locations $8004-$8008 instead of 
+$A004-$A008. Starting address is in the same exact format as the Vic's.) 
+        
+This a much more involved modification, and not for the squeemish or 
+those who only own one Vic20 (or C64) without any spares to fall back on! 
+
+To do it, you need a heck of a lot of computer knowledge specific to the 
+computer you're working on, an eprom burner, an eprom eraser, and patience.
+You have to search in the Kernal's memory image, for the start-up code, and
+modify those bytes to be something different than they are, while leaving all
+the other bytes just as they are. This alone takes some serious skills, no?
+You also need skills and tools in desoldering and removing IC chips, as well
+as soldering in IC sockets, and not destroying anything in the process.
+
+I won't go into this much, because I don't imagine many people will bother to
+actually attempt this method, since the other has some serious pro's to it, 
+and since this should be about enough info to go on; if you can't figure out
+how to do this modification with this info, you probably should not try it, 
+until you've progressed enough at a later time. Or, have someone else do it
+for you, with these instructions, if you really want it done badly enough.
+
+This way may appeal to some people, but I recommend the other for most folks. 
+The overly-technical types might be tempted to go ballistic however, and more 
+power to you! A thought, in parting; one could put 2 copies of the Kernal ROM 
+chip, one stock and one modified, into one 16K eprom, with an external switch 
+to flip between the two versions. (Or just go lower tech, and just manually 
+swap out Kernal chips as needed; most Vic20's seem to have sockets anyway.)
+
+Whatever you do, I hope you've enjoyed this article! Later, all!
+
+Ward Shrake, July 1995
+
+
+P.S. -- Recently added notes to myself, that others may find useful....
+
+ - You can cheat a little, to tell ahead of time if a cart is 8K or 16K, or
+   what. Not all pins are always connected, where the cart plugs into the 
+   computer. If a lot are missing, that's good. If you know this little 
+   trick, you can amaze your friends by "reading" that visually, like a code,
+   to tell what kind of memory set-up the cart is using. Follow these steps:
+
+   Hold the cartridge in your hand with the label facing you, and the gold
+   pins pointing straight up into the air. (Be sure to follow that exactly, 
+   or this little trick will not work.) Just hold it, and look at it.
+
+   Look at the row of gold pins, all pointing upwards. From the left side of 
+   the row, start counting pins. Ignore the first nine. Pay attention only 
+   to the tenth, eleventh, twelfth, and thirteenth pins. Ignore the rest. 
+   
+   If pin 13 is there, but pins 10, 11 and 12 are missing, the cartridge is  
+   a "normal" 8K ROM cartridge, loading at $A000-BFFF or block 5. That means
+   that the ROM-image copying methods above will work just fine on it.  
+   
+   If pin 13 is hooked up, and so is pin 12 but the other two are not there,
+   that cartridge is likely a 16K cartridge, which is harder to copy, and 
+   requires slightly different / more complex methods. (You can still copy 
+   the upper half, or block five, just like an 8K cartridge, though. The 8K
+   at $6000-7FFF requires some additional work.)
+
+   If pin 10 or 11 is hooked up, and 12 and 13 are both missing, it loads in
+   block 1 or 2, respectively. If there's only one pin there, its 8K. If two
+   are hooked up, its 8 times two, or 16K. (Cartridges like this are 
+   possible, but I doubt very much they are common, if they even exist.)
+   
+
+ - Sometimes you need to do a bit of exploring after saving a ROM image. To
+   see the addresses a cart is using on power up (cold start) or on a warm
+   start (reset button instead of cycling power completely), do this. After 
+   saving a normal "block 5" 8k file to disk, press reset, then type...
+   
+   PRINT PEEK(40960)+PEEK(40961)*256
+        to get the cold start address. Type the following...
+   PRINT PEEK(40962)+PEEK(40963)*256
+        to get the warm start (second) starting addresses to try. Don't 
+        forget to write them down, when you see the onscreen answers.
+
+ - You can automate the above and save later typing. I've written the above
+   into a BASIC program format, and saved it onto diskette. (Just write the
+   above as a basic program, and save it to a disk yourself. Essentially,
+   just add "10" in front of the first line, "20" on the second.) After 
+   saving a particular ROM image file to diskette, do the following steps...
+
+   Power off, then take the cartridge you just copied out of the computer.
+   "Insert" your RAM expander (located in memory at $A000, of course.)
+   Power on, or if using a slot expander, press reset to clear everything.
+   Type in the load command to load the image back in (using ,8,1 syntax.)
+   Type NEW, to prepare to load a BASIC program in the normal fashion / area.
+   Load up your little warm/cold start figuring program. (Mine is "Sys".)
+   Type RUN to run it. 
+   Write down the two starting addresses, for safe keeping later.
+   Try the first (cold) starting address first; type sys (the number) return. 
+   If it starts up, fine, circle that one, and consider that the startup code.
+   If the first number doesn't start it, reset, reload, and try the second.
+   
+
+
+
+
+

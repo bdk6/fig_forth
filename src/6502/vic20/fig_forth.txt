@@ -1,0 +1,122 @@
+
+
+
+;
+;  Through the courtesy of
+;
+;  FORTH INTEREST GROUP
+;  P. O. Box 1105
+;  San Carlos, CA  94070
+;
+;  Release 1.1
+;  With compiler security
+;          and
+;  varialbe length names
+;
+; Further distribution must include the above notice
+; The FIG Installation Manual is required as it
+; contains the model of FORTH and glossary of the system.
+; Available from FIG at the above address for $10.00 postpaid
+;
+; Translated from the fIG model by W. F. Ragsdale
+; with input-output given for teh Rockwell System-65.
+; Transportation to other systems only requires
+; alteration of:  XEMIT, XKEY, XQTER, XCR, and RSLW.
+;
+;
+;  Equates giving memory assignments, machine
+;  registers, and disk parameters.
+;
+;
+SSIZE = 128   sector size in bytes
+NBUF  = 8              ; number of buffers desired in ram
+;                    (SSIZE*NBUF >= 1024 bytes)
+SECTR = 800    sectors per drive
+;                        forcing hi drive to Screen #100
+SECTL = 1600     sector limit for 2 drives
+;                of 800 sectors per drive
+BMAG  = 1056    total buffer magnitude, in bytes
+;                    expressed by SSIZE+4*NBUF
+;
+BOS    =$20     bottom of data stack, in z-page.
+TOS    =$9E     top of data stack, in z-page.
+N      =TOS+8   xXxxxxxxx   scratch workspace
+IP     = N+8     Xx         interpretive pointer
+W      = IP+3   xXx         code field pointer
+UP     = W+2     Xx         user area pointer
+XSAVE  = UP+2    X          temporary for X register
+;
+TIBX   =$0100   terminal input buffer of 84 bytes.
+ORIG   =$0200   origin of FORTH's dictionary.
+MEM    =$4000   top of assigned meory+1 byte.
+UAREA  =MEM-128 128 bytes of user area
+DAREA  =UAREA-BMAG disk buffer area
+;
+;      Monitor calls for terminal support
+;
+OUTCH   =$D2C1     ; output one ASCII character to termina
+INCH    =$D1DC      ; input one ASCII character from termina
+TCR     =$D0F1     ; terminal return and line feed
+;
+;
+;   From DAREA downward to the top of the dictionary is free
+;   space where the user's applications are compiled.
+;
+;
+;   Boot up parameters.  This area provide jump vectors
+;   to bootup code, and parameters describing the system.
+;
+        *=ORIG
+ENTER   NOP       User cold entry point
+        JMP COLD+2    vector to COLD entry
+REENTER NOP       ; User warm entry point
+        JMP WARM    vector to warm entry
+        .WORD $0004    6502 encoded in radix-36
+        .WORD $5ED2
+        .WORD NTOP     Name address of MON
+        .WORD $7f      Backspace character
+        .WORD UAREA    Initial user area
+        .WORD TOS      Initial top of stack
+        .WORD $1ff     Initial top of return stack
+        .WORD TIBX     Initial terminal input buffer
+        .WORD 31       Initial name field width
+        .WORD 0        0 = no disk 1 = disk
+        .WORD TOP      Initial fence address
+        .WORD TOP      Initial top of dictionary
+        .WORD VL0      Initial vocabulary link pointer
+;
+;   The following offset adjusts all code fields
+;   to avoid an address ending $xxFF.  This must
+;   be checked and altered on any alteration, for
+;   the indirect jump at W-1 to operate!!!
+;
+;
+        *=*+2
+;
+
+;
+;                               LIT
+;
+;                               SCREEN 13 LINE 1
+;
+L22     .BYTE $83, 'LI', $D4    <--- name field
+         ; <--- link field
+         .WORD 00        Last link is marked by zero
+LIT      .WORD *+2       <--- code adress field
+         LDA (IP),Y      <--- start of parameter field
+         PHA
+         INC IP
+         BNE L30
+         INC IP+1
+L30      LDA (IP),Y
+L31      INC IP
+         BNE PUSH
+         INC IP+1
+;
+PUSH     DEX
+         DEX
+;
+PUT      STA 1,X
+         PLA
+         STA 0,X
+;
